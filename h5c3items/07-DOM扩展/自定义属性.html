@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>自定义属性</title>
+</head>
+<body>
+	
+	 <div class="one" name="dhl" pwd="123"  data-username="zhangsan"  data-age="18">自定义属性</div>
+
+	 <script type="text/javascript">
+	 	
+	 	  //常规获取元素属性
+	 	  
+	 	  // var div=document.querySelector("div");
+
+	 	  // var name1=div.getAttribute("name");
+
+	 	  // var pwd=div.getAttribute("pwd");
+
+	 	  // var classs=div.getAttribute("class");
+
+
+	 	  // //设置属性
+	 	  // div.setAttribute("test","你好");
+
+	 	  // console.log(name1,pwd,classs);
+	 	  
+
+	 	  var div=document.querySelector("div");
+
+	 	  //获取自定义属性
+	 	  var data=div.dataset;
+
+	 	  	  data.hH="中国";
+	 	  console.log(data.username,data["age"]);
+
+	 </script>
+</body>
+</html>

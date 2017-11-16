@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>拖拽</title>
+
+	<style type="text/css">
+		
+
+		 .box {
+		 	 width: 200px;
+		 	 height: 200px;
+		 	 border: 1px solid red;
+		 }
+
+		 .target {
+		 	 width: 100px;
+		 	 height: 100px;
+		 	 background-color: pink;
+		 	 display: block;
+		 }
+
+	</style>
+</head>
+<body>
+	  <div class="box"></div>
+	  <span class="target" draggable="true" id="target"></span>
+
+	  <script type="text/javascript">
+	  		
+	  	  var box=document.querySelector(".box");
+	  	  var span=document.querySelector(".target");
+
+	  	      span.ondragstart=function(e){
+
+	  	      	    e.dataTransfer.setData("text","target");
+	  	      }
+
+	  	      box.ondrop=function(e){
+	  	      	 var id= e.dataTransfer.getData("text");
+	  	      	 var span=document.getElementById(id);
+	  	      	 e.target.appendChild(span);
+	  	      }
+	  	      box.ondragover=function(e){
+	  	      	  e.preventDefault();
+	  	      }
+
+
+	  </script>
+	
+</body>
+</html>
