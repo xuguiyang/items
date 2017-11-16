@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+	 <input type="file" name="">
+	 <script type="text/javascript">
+
+	 	var file_btn=document.querySelector("input");
+
+	 		file_btn.onchange=function(){
+
+	 			var file=this.files[0];
+
+	 			var reader=new FileReader();
+
+	 			reader.readAsText(file);
+
+	 			reader.onload=function(){
+	 				var style=document.createElement("style");
+	 					style.innerHTML=this.result;
+	 				document.querySelector("head").appendChild(style);
+
+	 			}
+
+	 		}
+	 </script>
+</body>
+</html>

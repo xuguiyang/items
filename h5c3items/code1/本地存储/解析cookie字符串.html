@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>解析Cookie字符串</title>
+</head>
+<body>
+	<script type="text/javascript">
+		
+		var cookie="BD_UPN=12314353;sug=3;sugstore=0;ORIGIN=2;bdime=0";
+
+		  var cookie_ary=cookie.split(";")
+		  var obj={};
+		  for(var i=0;i<cookie_ary.length;i++){
+		  	   var ary=cookie_ary[i].split("=");
+		  	   obj[ary[0]]=ary[1];
+		  }
+
+	</script>
+</body>
+</html>

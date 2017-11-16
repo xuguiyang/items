@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		.box {
+			 width: 200px;
+			 height: 200px;
+			 border: 1px solid red;
+		}
+		span {
+			 width: 100px;
+			 height: 100px;
+			 background-color: pink;
+			 display: block;
+		}
+	</style>
+</head>
+<body>
+	
+	   <div class="box"></div>
+
+	   <span draggable="true" id="span"></span>
+
+	   <script type="text/javascript">
+	   		var box=document.querySelector(".box");
+	   		var span=document.querySelector("span");
+
+	   		//span标签被拖拽的时候会触发一个ondragstart事件
+	   		span.ondragstart=function(e){
+	   			e.dataTransfer.setData("text","span");
+	   		}
+
+	   		//div标签接收该元素的时候会触发一个ondrag事件
+	   		box.ondrop=function(e){
+
+	   		   var id=e.dataTransfer.getData("text");
+
+	   		   var span=document.getElementById(id);
+
+	   		   e.target.appendChild(span);
+	   		}
+
+	   		box.ondragover=function(e){
+	   			 e.preventDefault();
+	   		}
+
+
+	   		// 将元素拖拽到外面
+	   		// var body=document.body;
+	   		// 	body.ondrop=function(e){
+	   		// 		 var id=e.dataTransfer.getData("text");
+	   		//    		 var span=document.getElementById(id);
+	   		//    		 e.target.appendChild(span);
+	   		// 	}
+
+	   		// 	body.ondragover=function(e){
+	   		// 		e.preventDefault();
+	   		// 	}
+
+	   </script>
+
+</body>
+</html>

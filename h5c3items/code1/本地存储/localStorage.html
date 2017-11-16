@@ -1,0 +1,42 @@
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+	 <input type="text" class="input_value" value="">
+	 <input type="button" value="设置" class="set">
+	 <input type="button" value="获取" class="get">
+	 <input type="button" value="删除" class="remove">
+	 <input type="button" value="清空" class="clear">
+
+
+	<script type="text/javascript">
+		
+		 var text=document.querySelector(".input_value");
+
+
+		 var set=document.querySelector(".set");
+		 var get=document.querySelector(".get");
+		 var remove=document.querySelector(".remove");
+		 var clear=document.querySelector(".clear");
+
+		 set.onclick=function(){
+		 	 localStorage.setItem("name",text.value);
+		 }
+
+		 get.onclick=function(){
+		 	console.log(localStorage.getItem("name"));
+		 }
+		 remove.onclick=function(){
+		 	localStorage.removeItem("name");
+		 }
+
+		 clear.onclick=function(){
+		 	localStorage.clear();
+		 }
+
+	</script>
+</body>
+</html>

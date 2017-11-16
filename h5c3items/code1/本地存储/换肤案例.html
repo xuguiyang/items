@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>换肤</title>
+
+	<style type="text/css">
+		.box {
+			 width: 980px;
+			 height: 400px;
+			 border: 1px solid red;
+			 margin: 100px auto;
+		}
+
+		.ok {
+			 display: inline-block;
+			 height: 50px;
+			 line-height: 50px;
+			 padding: 0 30px;
+			 cursor: pointer;
+			 margin: 3px;
+		}
+	</style>
+</head>
+<body>
+	
+	<input type="color">
+
+	<div class="colorbox"></div>
+
+	<div class="box"></div>
+
+	<script type="text/javascript">
+		
+		var color_input=document.querySelector("input");
+		    load();
+			//点击选择颜色保存
+		    color_input.onchange=function(){
+		    	//首先判断当前浏览器中是否存在颜色的数据，如果没有，那么直接创建并添加
+		    	var local=localStorage.getItem("colors");
+		    	var color_ary=[];
+		    	if(local==null){
+		    		//直接将该颜色添加到本地存储中
+		    		color_ary[color_ary.length]=this.value;
+		    		localStorage.setItem("colors",JSON.stringify(color_ary));
+
+		    	}else{
+		    		//然后判断该颜色是否存在，如果不存在，则不添加，如果不存在，那么追加到本地存储中
+		    		local=JSON.parse(local);
+		    		for(var i=0;i<local.length;i++){
+
+		    			if(local[i]==this.value){
+		    				return;
+		    			}
+		    		}
+		    		local.push(this.value);
+		    		localStorage.clear();
+		    		localStorage.setItem("colors",JSON.stringify(local));
+		    	}
+		    	//先将页面中的元素清空
+		    	clear();
+		    	load();
+		    }
+		   function load(){
+		  	  var local=localStorage.getItem("colors");
+		  	  if(local==null){
+		  	  	 alert("对不起,暂无颜色");
+		  	  }else{
+
+		  	  	 local=JSON.parse(local);
+		  	  	 //遍历颜色添加到页面中
+		  	  	 for(var i=0;i<local.length;i++){
+		  	  	 	var a=document.createElement("a");
+		  	  	 		a.classList.add("ok");
+		  	  	 		a.innerHTML=local[i];
+		  	  	 		a.style.backgroundColor=local[i];
+		  	  	 		a.onclick=function(){
+		       				document.querySelector(".box").style.backgroundColor=this.innerHTML;
+
+		       			}
+		  	  	 	document.querySelector(".colorbox").appendChild(a);
+		  	  	 }
+		  	  }
+		   }
+		   function clear(){
+		   	  var a=document.querySelectorAll(".colorbox a");
+		   	  var colorBox=document.querySelector(".colorbox");
+		   	  if(a.length==0){
+
+		   	  }else{
+		   	  	 for(var i=0;i<a.length;i++){
+					colorBox.removeChild(a[i]);
+		   	  	 }
+		   	  }
+		   }
+	</script>
+</body>
+</html>

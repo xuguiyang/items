@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+		<!-- 获取当前网络状态 -->
+		<script type="text/javascript">
+			
+			var state= window.navigator.onLine;
+
+			if(state){
+				 alert("当前处于联网状态");
+			}else{
+				 alert("当前处于断网状态");
+			}
+			
+			
+			// 监听网络状态
+			window.addEventListener("online",function(){
+				 alert("有网");
+			}) 
+
+			window.addEventListener("offline",function(){
+				alert("断网");
+			})
+
+			
+			
+
+		</script>
+	  
+
+</body>
+</html>
