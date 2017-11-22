@@ -1,0 +1,102 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>传智音乐</title>
+    {{include './particals/links.html'}}
+</head>
+
+<body>
+    {{include './particals/header.html'}}
+    <div class="container">
+        <form id="form" method="post" action="/" >
+            <div class="form-group">
+                <label for="">歌曲标题</label>
+                <input type="text" name="title" class="form-control" placeholder="请输入歌曲标题">
+            </div>
+            <div class="form-group">
+                <label for="">歌曲时长</label>
+                <input type="text" name="time" class="form-control" placeholder="请输入歌曲时长">
+            </div>
+            <div class="form-group">
+                <label for="">歌手</label>
+                <input type="text" name="singer" class="form-control" placeholder="请输入歌手姓名">
+            </div>
+            <div class="form-group">
+                <label for="">歌曲文件</label>
+                <input type="file" name="file" id="file">
+                <p class="help-block">请上传歌曲文件.</p>
+            </div>
+            <div class="form-group">
+                <label for="">歌词文件</label>
+                <input type="file" name="filelrc" id="filelrc">
+                <p class="help-block">请上传歌曲文件.</p>
+            </div>
+            <button type="submit" class="btn btn-success">点击添加</button>
+        </form>
+    </div>
+    {{include './particals/footer.html'}}
+    <script type="text/javascript">
+        $('#form').on('submit',function(e){
+            //禁止
+            e.preventDefault();
+            // console.log($(this).serialize());
+            // ——>add-music:91 title=1&time=2&singer=3
+            // console.log($('#file').val())
+            // ->  C:\fakepath\G.E.M.邓紫棋 - 喜欢你.mp3
+            // console.log($('#file').get(0).files);  
+            // -> 文件对象列表 .files是原生DOM的属性
+            
+
+            var inputs = document.querySelectorAll('input');
+            var title = inputs[0].value;
+            var time = inputs[1].value;
+            var singer = inputs[2].value;
+            //两个文件
+            var file = inputs[3].files[0]; //多文件上传就有可能1,2
+            var filelrc = inputs[4].files[0]; //多文件上传就有可能1,2
+
+
+            //HTML5中提供的formDate，传输文件上传
+            //new FormData()
+            //append(key,value)
+            var fd = new FormData();
+            fd.append('title',title);
+            fd.append('time',time);
+            fd.append('singer',singer);
+            fd.append('file',file);
+            fd.append('filelrc',filelrc);
+
+            // jquery.js:8970 Uncaught TypeError: Illegal invocation
+            // 上传了文件，jq默认的content-type是www那个键值对
+            // jq也会将你的文件对象进行字符串转换，转换带来了这些异常
+
+            //原生ajax xhr.send(fd); 等同于->  data:fd
+            $.ajax({
+                url:'/api/add-music',
+                type:'post',
+                // jq上传文件必要属性二
+                processData:false,//不转换数据
+                contentType:false,//不设置头
+                data:fd,
+                dataType:'json',
+                success:function(data){
+                    if(data.code != '001'){
+                        //失败,
+                        alert(data.msg);
+                    }else{
+                        if(confirm('亲。添加成功，是否去听听? ^_^')){
+                            window.location = '/music/list-music';
+                        }
+                    }
+                }
+            })
+            //注意，同步上传文件的fomr上必须添加enctype="multipart/form-data;"
+            //D:\从D盘根目录移动的碎片文件\CloudMusic
+        })
+
+
+    </script>
+</body>
+
+</html>

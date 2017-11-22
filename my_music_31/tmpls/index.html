@@ -1,0 +1,199 @@
+﻿<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>传智音乐</title>
+    {{include './particals/links.html'}}
+    <style type="text/css">
+    #box {
+        background-color: rgba(0, 0, 0, 0.2);
+        width: 300px;
+        height: 360px;
+        margin-top: 10px;
+        overflow: hidden;
+        padding: 0;
+    }
+
+    #box p {
+        padding: 0 15px;
+    }
+
+    #lrc {
+        margin-top: 130px;
+        position: absolute;
+        text-align: center;
+        padding-top: 60px;
+    }
+
+    .gl {
+        color: hotpink;
+        background-color: red;
+    }
+    </style>
+</head>
+
+<body>
+    {{include './particals/header.html'}}
+    <div class="container1">
+        <div class="page-header">
+            <h1>首页--<small>我的音乐</small></h1>
+        </div>
+        <a href="/music/add-music" class="btn btn-success">添加音乐</a>
+    </div>
+    <div class="container1">
+        <div class="row" style="display: flex;">
+            <div style="flex: 3; margin-right: 10px;">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <th>歌曲标题</th>
+                        <th>时长</th>
+                        <th>歌手</th>
+                        <th>编辑</th>
+                        <th>删除</th>
+                        <th>播放</th>
+                    </thead>
+                    <tbody class="list_container" id="list_container">
+                        {{each musics}}
+                        <tr>
+                            <td>{{$value.title}}</td>
+                            <td>{{$value.singer}}</td>
+                            <td>{{$value.time}}</td>
+                            <td><a href="/music/edit-music?_id={{mongoid($value._id)}}">编辑</a></td>
+                            <td><a class="del" href="/api/del-music?_id={{mongoid($value._id)}}">删除</a></td>
+                            <td><span style="cursor:pointer" src="" file="{{$value.file}}" filelrc="{{$value.filelrc}}" class="glyphicon glyphicon-play-circle ply"></span></td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+            <div style="flex: 2">
+                <p>正在播放音乐111:</p>
+                <audio id="audio" autoplay src="" controls="controls">
+                </audio>
+                <div id="box" class="col-md-3">
+                    <div id="lrc">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+    //解析歌词返回对象
+    function parseLrc(lrcStr) {
+        //3:计算秒和内容 ，添加到obj的key和value中
+        var obj = {};
+        // [00:03.62] 我的滑板鞋
+        // [00:07.50]歌词编辑：薰风习习
+        // /\[(\d{2})\:(\d{2})\.(\d{2})\](.*)/
+        var regex = /\[(\d{2})\:(\d{2})\.(\d{2})\](.*)/;
+        //1:按换行切割字符串
+        var lines = lrcStr.split('\n');
+        //2:遍历每一行数据，根据正则匹配 + 分组（要的东西)
+        for (var i = 0; i < lines.length; i++) {
+            var line = lines[i];
+            var result = regex.exec(line);
+            //判断匹配不上的
+            if (result == null) continue; //继续下一行
+            //[1:分,2:秒，3:毫秒,4:歌词]
+            // console.log(result);
+            var time = (result[1] - 0) * 60 //分
+                +
+                (result[2] - 0) //秒
+                +
+                Math.round(result[3] / 100) //毫秒
+            //添加属性
+            obj[time] = result[4]; //内容
+        }
+
+        return obj;
+    }
+    //接收对象，创建DOM
+    function createDOM(lrcObj) {
+        var tempStr = '';
+        for (var time in lrcObj) {
+            tempStr += '<p time=' + time + '>' + lrcObj[time] + '</p>'
+        }
+        $('#lrc').html(tempStr);
+    }
+    //滚动设置
+    function scroll(lrcObj) {
+        //音乐播放的时候要能获取描述
+        $('#audio').on('timeupdate', function() {
+            var jumpTime = Math.round(this.currentTime); //20|| 23
+            //判断是否需要跳
+            if (!lrcObj[jumpTime]) return;
+
+            //查找DOM中的P
+            var p = $('#lrc').find('p[time=' + jumpTime + ']');
+            // console.log(p.offset().top);
+            var minusHeight = $('#lrc').offset().top - p.offset().top;
+            console.log(minusHeight);
+
+
+            //移动lrc
+            $('#lrc').animate({
+                top: minusHeight, //top负数，向上移动，越来越负
+            }, 'slow')
+            //添加高亮，其他移除
+            p.addClass('gl').siblings().removeClass('gl');
+
+
+        })
+
+    }
+
+    //给播放按钮添加点击事件，获取lrc
+    $('.ply').on('click', function() {
+        var filelrc = $(this).attr('filelrc'); //歌词url
+        var file = $(this).attr('file'); //歌曲url
+        //通过ajax请求资源
+        $.ajax({
+            url: filelrc,
+            type: 'get',
+            success: function(data) {
+                //解析歌词成为对象
+                var obj = parseLrc(data);
+                //利用对象生成DOM结构，并放入lrc中
+                createDOM(obj);
+                //绑定audio事件，让播放得以滚动
+                scroll(obj); // obj判断是否滚动的依据
+                //让播放器播放
+                $('#audio').attr('src', file);
+            }
+        });
+    })
+
+    //给a标签添加点击事件
+    $('.del').on('click', function(e) {
+        e.preventDefault();
+        //获取当前的a标签对象中的href属性
+        if (confirm('亲，确定要删除吗？很好听哟!')) {
+            var href = $(this).attr('href');
+            var a = this;
+            //发起ajax请求
+            $.ajax({
+                url: href,
+                type: 'delete',
+                dataType: 'json',
+                success: function(data) {
+                    if (data.code != '001') {
+                        // 如果删除失败 code != '001',提示删除失败，获取最新数据
+                        // 跳转/music/list-music
+                        alert('删除失败!');
+                        window.location = '/music/list-music';
+                    } else {
+                        //删除成功，由于是根据账户的操作，一般来讲，不会有太多人操作这个账户
+                        //节约性能来说，不必发请求了,无刷新删除DOM元素
+
+                        var tr = a.parentNode.parentNode;
+                        tr.parentNode.removeChild(tr);
+                    }
+                }
+            })
+        }
+    })
+    </script>
+    {{include './particals/footer.html'}}
+</body>
+
+</html>

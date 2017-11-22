@@ -1,0 +1,157 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>传智音乐</title>
+    {{include './particals/links.html'}}
+    <style type="text/css">
+    #pwd-level div {
+        height: 30px;
+        width: 30px;
+        display: inline-block;
+        float: left;
+    }
+    
+    #pwd-level span {
+        display: inline-block;
+        float: left;
+    }
+    </style>
+</head>
+
+<body>
+  {{include './particals/header.html'}}
+
+    <link href="/public/css/register.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+    </script>
+    <div class="aw-register-box">
+        <div class="mod-head">
+            <a href="/"></a>
+            <h1>注册新用户</h1>
+            <h3 style="color: red" id="msg"></h3>
+        </div>
+        <div class="mod-body">
+            <form action="" class="aw-register-form" method="post" id="register_form">
+                <ul>
+                    <li class="alert alert-danger hide error_message text-left">
+                        <i class="icon icon-delete"></i> <em></em>
+                    </li>
+                    <li>
+                        <input class="aw-register-name form-control" type="text" name="username" placeholder="用户名" value="" id="username" />
+                    </li>
+                    <li>
+                        <input class="aw-register-email form-control" type="text" placeholder="邮箱" name="email" value="" />
+                    </li>
+                    <li>
+                        <input class="aw-register-pwd form-control" type="password" name="password" placeholder="密码" id="password"  />
+                    </li>
+                    <div id='pwd-level'>
+                        <span>密码强度:</span>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <hr/>
+                    <li class="aw-register-verify">
+                        <img class="pull-right" width="120" src="/api/get-pic" onclick="this.src = this.src + '?' + Date.now()">
+                        <input type="text" class="form-control" name="v_code" placeholder="验证码" />
+                    </li>
+                    <li class="last">
+                        <label>
+                            <input type="checkbox" checked="checked" value="agree" /> 我同意</label> <a href="javascript:;" class="aw-agreement-btn">用户协议</a>
+                        <a href="/login" class="pull-right">已有账号?</a>
+                        <div class="aw-regiter-agreement hide">
+                            <div class="aw-register-agreement-txt" id="register_agreement"></div>
+                        </div>
+                    </li>
+                    <li class="clearfix">
+                        <button type="submit" class="btn btn-large btn-blue btn-block">
+                            注册
+                        </button>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
+{{include './particals/footer.html'}}
+
+    <script type="text/javascript">
+    //验证用户名是否存在
+        $('#username').on('blur',function(){
+           var input = $(this);
+           //获取其值
+           var username = input.val(); 
+           // console.log(input.attr('old'));
+           // console.log(username);
+           if($(this).attr('old') == username) return;
+           //发起请求
+           $.ajax({
+            url:'/api/check-username?username=' + username,
+            type:'get',
+            dataType:'json',
+            success:function(data){
+                $('#msg').text(data.msg);
+                input.attr('old',username);
+            }
+           })
+        });
+    //注册
+    $('#register_form').on('submit',function(e){
+        e.preventDefault();
+        var data = $(this).serialize();
+        $.ajax({
+            url:'/api/do-register',
+            type:'post',
+            data:data,
+            dataType:'json',
+            success:function(data){
+                if(data.code != '001'){
+                    $('#msg').text(data.msg);
+                }else{
+                    //001 成功
+                    if(confirm('注册成功，去登录?')){
+                        window.location = '/user/login';
+                    }
+                }
+            }
+
+        })
+    })
+    //密码强度
+    $('#password').on('keyup',function(){
+        var value = $(this).val();
+        var level = 0;//密码级别
+        var regex1 = /[0-9]/; //数字
+        var regex2 = /[a-zA-Z]/; //字母
+        var regex3 = /\W/; //特殊字符
+
+        if(regex1.test(value))level++; //1
+        if(regex2.test(value))level++; //2
+        if(regex3.test(value))level++; //3
+
+        //返回的是原生DOM对象
+        var divs = $('#pwd-level').find('div');
+
+        //清空默认颜色
+        for (var i = 0; i < divs.length; i++) {
+            divs[i].style.backgroundColor = '';
+        }
+
+
+        //设置级别颜色
+        var colors = ['yellowgreen','skyblue','hotpink'];
+
+
+        //设置颜色
+        for (var i = 0; i < level; i++) {
+            divs[i].style.backgroundColor = colors[i]
+        }
+
+
+    })
+    </script>
+
+</body>
+
+</html>
