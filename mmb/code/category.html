@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>慢慢买项目</title>
+    <!-- bootatrap的样式 -->
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
+    <!-- 公共样式 -->
+    <!-- <link rel="stylesheet/less" href="css/base.less"> -->
+    <link rel="stylesheet" href="css/base.css">
+    <!-- 商品样式 -->
+    <!-- <link rel="stylesheet/less" href="css/category.less"> -->
+    <link rel="stylesheet" href="css/category.css">
+    <!-- less.js -->
+    <script src="lib/less/less.js"></script>
+</head>
+
+<body>
+    <!-- 头部 B -->
+    <header id="header">
+        <a href="#" id="logo">
+            <img src="images/header_logo.png" alt="">
+        </a>
+        <a href="#" id="app">
+            <img src="images/header_app.png" alt="">
+        </a>
+    </header>
+    <!-- 头部 E -->
+    <!-- 搜索 B -->
+    <section id="search">
+        <form action="#">
+            <input type="search" placeholder="MacPro">
+            <input type="submit" value="go">
+        </form>
+    </section>
+    <!-- 搜索 E -->
+    <!-- category B -->
+    <secttion id="category_title">
+        <ul class="category_ul">
+            <li>
+                <a href="#">大家电</a>
+                <ul class="clearfix">
+                    <li>
+                        <a href="#">电视</a>
+                    </li>
+                    <li>
+                        <a href="#">电视</a>
+                    </li>
+                    <li>
+                        <a href="#">电视</a>
+                    </li>
+                    <li>
+                        <a href="#">电视</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#">大家电</a>
+                <ul class="clearfix">
+                    <li>
+                        <a href="#">电视</a>
+                    </li>
+                    <li>
+                        <a href="#">电视</a>
+                    </li>
+                    <li>
+                        <a href="#">电视</a>
+                    </li>
+                    <li>
+                        <a href="#">电视</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </secttion>
+    <!-- category E -->
+
+    <!-- 底部 B -->
+    <section id="footer">
+        <div class="recommend_title">
+            <span>更多优惠信息</span>
+            <img src="http://www.zuyushop.com/wap/images/more.png" alt="">
+        </div>
+        <div class="login_box">
+            <div class="login">
+                <a href="#">登录</a>
+            </div>
+            <div class="resgiter">
+                <a href="#">注册</a>
+            </div>
+            <div class="gotop">
+                <img src="http://www.zuyushop.com/wap/images/top.jpg" alt="">
+                <a href="#">返回顶部</a>
+            </div>
+        </div>
+        <div class="info">
+            <span>手机下载</span>
+            <span>手机下载</span>
+            <span>手机下载</span>
+        </div>
+    </section>
+    <!-- 底部 E -->
+
+    <!-- categoryTitle B -->
+
+    <script type="text/template" id="categoryTpl">
+        {{each result as value as index}}
+        <li>
+                <a data_title_id={{value.titleId}} href="#">{{value.title}}</a>
+                <ul class="clearfix">
+
+                </ul>
+            </li>
+
+
+        {{/each}}
+    </script>
+    <!-- categoryTitle E -->
+
+    <!-- category B -->
+    <script type="text/template" id="categoryTpls">
+        {{each result as value as index}}
+        <li>
+                <a href="#">{{value.category}}</a>
+            </li>
+        {{/each}}
+
+    </script>
+    <!-- category E -->
+
+
+
+    <script src="./lib/jquery/jquery.js"></script>
+    <script src="./lib/bootstrap/js/bootstrap.js"></script>
+    <script src="js/url.js"></script>
+    <script src="js/template.js"></script>
+    <script src="js/category.js"></script>
+</body>
+
+</html>
