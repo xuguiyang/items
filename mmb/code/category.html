@@ -57,7 +57,6 @@
                     </li>
                 </ul>
             </li>
-
             <li>
                 <a href="#">大家电</a>
                 <ul class="clearfix">
@@ -78,7 +77,6 @@
         </ul>
     </secttion>
     <!-- category E -->
-
     <!-- 底部 B -->
     <section id="footer">
         <div class="recommend_title">
@@ -104,36 +102,28 @@
         </div>
     </section>
     <!-- 底部 E -->
-
     <!-- categoryTitle B -->
-
     <script type="text/template" id="categoryTpl">
         {{each result as value as index}}
         <li>
-                <a data_title_id={{value.titleId}} href="#">{{value.title}}</a>
-                <ul class="clearfix">
-
-                </ul>
-            </li>
-
-
+            <a data_title_id={{value.titleId}} href="#">{{value.title}}</a>
+            <ul class="clearfix">
+            </ul>
+        </li>
         {{/each}}
     </script>
     <!-- categoryTitle E -->
-
     <!-- category B -->
     <script type="text/template" id="categoryTpls">
         {{each result as value as index}}
-        <li>
-                <a href="#">{{value.category}}</a>
-            </li>
-        {{/each}}
 
+        <li>
+            <a href="#">{{value.category}}</a>
+        </li>
+
+        {{/each}}
     </script>
     <!-- category E -->
-
-
-
     <script src="./lib/jquery/jquery.js"></script>
     <script src="./lib/bootstrap/js/bootstrap.js"></script>
     <script src="js/url.js"></script>

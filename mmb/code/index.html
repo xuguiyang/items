@@ -9,11 +9,11 @@
     <!-- bootatrap的样式 -->
     <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
     <!-- 公共样式 -->
-    <link rel="stylesheet/less" href="css/base.less">
-    <!-- <link rel="stylesheet" href="css/base.css"> -->
+    <!-- <link rel="stylesheet/less" href="css/base.less"> -->
+    <link rel="stylesheet" href="css/base.css">
     <!-- 首页样式 -->
-    <link rel="stylesheet/less" href="css/index.less">
-    <!-- <link rel="stylesheet" href="css/index.css"> -->
+    <!-- <link rel="stylesheet/less" href="css/index.less"> -->
+    <link rel="stylesheet" href="css/index.css">
     <!-- less.js -->
     <script src="lib/less/less.js"></script>
 </head>
@@ -49,7 +49,7 @@
             <div class="col-xs-3">
                 <a href="#">
                     <img src="images/ic_search.png" alt="">
-                    <p>比价搜索</p>
+                    <p>搜索比价</p>
                 </a>
             </div>
             <div class="col-xs-3">
@@ -179,15 +179,15 @@
     <!-- 底部 E -->
     <!-- menuTpl B -->
     <script type="text/template" id="menuTpl">
-        {{each result as value index}} 
+        {{each result as value index}}
         <div class="col-xs-3">
                 <a href="{{value.titlehre}}">
                     {{#value.img}}
                     <p>{{value.name}}</p>
                 </a>
             </div>
-       {{/each}} 
-    
+       {{/each}}
+
     </script>
     <!-- menuTpl E -->
     <!-- recommendTpl B -->
@@ -209,7 +209,7 @@
                         </div>
                     </div>
                 </div>
-      
+
     {{/each}}
     </script>
     <!-- recommendTpl E -->
